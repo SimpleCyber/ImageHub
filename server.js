@@ -37,7 +37,7 @@ app.get('/api/random-image', (req, res) => {
         }
 
         const randomNum = Math.floor(Math.random() * imageCount) + 1;
-        const imageUrl = `http://localhost:3000/images/${randomNum}.jpg`;
+        const imageUrl = `https://randomimage.vercel.app/images/${randomNum}.jpg`;
 
         res.json({ imageUrl, imageNumber: randomNum, totalImages: imageCount });
     } catch (error) {
