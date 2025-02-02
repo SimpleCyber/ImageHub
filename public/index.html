@@ -453,39 +453,37 @@
         height: calc(100vh - 170px);
         z-index: 5;
       }
-      .copyUrlBtn1{
+      .copyUrlBtn1 {
         margin-top: 2.7rem;
       }
-      .copyUrlBtn2{
+      .copyUrlBtn2 {
         margin-top: 5.2rem;
       }
       .custom-alert {
-      position: fixed;
-      top: 120px;
-      right: 20px;
-      background: #4CAF50;
-      font-weight: bold;
-      padding: 12px 18px;
-      border-radius: 8px;
-      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-      font-size: 14px;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.3s ease, transform 0.3s ease;
-    }
+        position: fixed;
+        top: 120px;
+        right: 20px;
+        background: #4caf50;
+        font-weight: bold;
+        padding: 12px 18px;
+        border-radius: 8px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        font-size: 14px;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+      }
 
-    .custom-alert.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-          
+      .custom-alert.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
     </style>
   </head>
   <body>
     <div class="gallery-layout">
       <div class="sidebar">
-        <div class="thumbnail-container" id="thumbnailContainer">
-        </div>
+        <div class="thumbnail-container" id="thumbnailContainer"></div>
       </div>
 
       <div class="main-content">
@@ -536,7 +534,6 @@
 
     <div id="customAlert" class="custom-alert"></div>
 
-
     <script>
       const mainImage = document.getElementById("mainImage");
       const prevBtn = document.getElementById("prevBtn");
@@ -553,16 +550,18 @@
       const closeFullscreen = document.querySelector(".close-fullscreen");
       const loadingSpinner = document.querySelector(".loading-spinner");
       const customAlert = document.getElementById("customAlert");
-
-
+  
       let totalImages = 0;
       let currentImageIndex = 1;
       let isZoomed = false;
-
+  
+      // Get base URL dynamically for the deployed environment
+      const baseURL = window.location.origin;
+  
       // Fetch total images dynamically
       async function fetchTotalImages() {
         try {
-          const response = await fetch("/health");
+          const response = await fetch(`${baseURL}/health`);
           const data = await response.json();
           totalImages = data.imagesAvailable || 1;
         } catch (error) {
@@ -570,16 +569,16 @@
           totalImages = 1;
         }
       }
-
+  
       // Fetch image by index
       async function fetchImage(index) {
         if (index < 1 || index > totalImages) return;
-
+  
         try {
           loadingSpinner.style.display = "block";
           currentImageIndex = index;
-          const imageUrl = `/images/${index}.jpg`;
-
+          const imageUrl = `${baseURL}/images/${index}.jpg`;
+  
           mainImage.src = imageUrl;
           fullscreenImage.src = imageUrl;
           currentImageSpan.textContent = index;
@@ -589,11 +588,11 @@
           loadingSpinner.style.display = "none";
         }
       }
-
+  
       // Show a random image
       async function showRandomImage() {
         try {
-          const response = await fetch("/api/random-image");
+          const response = await fetch(`${baseURL}/api/random-image`);
           const data = await response.json();
           if (data.imageNumber) {
             fetchImage(data.imageNumber);
@@ -602,12 +601,12 @@
           console.error("Error fetching random image:", error);
         }
       }
-
+  
       // Load thumbnails dynamically
       async function loadThumbnails() {
         for (let i = 1; i <= totalImages; i++) {
           const thumbnail = document.createElement("img");
-          thumbnail.src = `/images/${i}.jpg`;
+          thumbnail.src = `${baseURL}/images/${i}.jpg`;
           thumbnail.alt = `Thumbnail ${i}`;
           thumbnail.classList.add("thumbnail");
           thumbnail.loading = "lazy";
@@ -615,10 +614,10 @@
           thumbnailContainer.appendChild(thumbnail);
         }
       }
-
+  
       // Copy URL function
       function copyImageUrl() {
-        const imageUrl = `${window.location.origin}/images/${currentImageIndex}.jpg`;
+        const imageUrl = `${baseURL}/images/${currentImageIndex}.jpg`;
         navigator.clipboard
           .writeText(imageUrl)
           .then(() => {
@@ -628,10 +627,10 @@
             console.error("Failed to copy URL:", err);
           });
       }
-
+  
       function copyImageUrlRand() {
-        const imageUrl = `https://randomimage.vercel.app/api/random-image`;
-
+        const imageUrl = `${baseURL}/api/random-image`;
+  
         navigator.clipboard
           .writeText(imageUrl)
           .then(() => {
@@ -641,16 +640,15 @@
             console.error("Failed to copy URL:", err);
           });
       }
-
-
+  
       function showAlert(message) {
-      customAlert.textContent = message;
-      customAlert.classList.add("show");
-      setTimeout(() => {
-        customAlert.classList.remove("show");
-      }, 2000);
-    }
-
+        customAlert.textContent = message;
+        customAlert.classList.add("show");
+        setTimeout(() => {
+          customAlert.classList.remove("show");
+        }, 2000);
+      }
+  
       // Event listeners
       prevBtn.onclick = () => fetchImage(currentImageIndex - 1);
       nextBtn.onclick = () => fetchImage(currentImageIndex + 1);
@@ -666,7 +664,7 @@
           fullscreenView.style.display === "flex" ? "hidden" : "";
       };
       closeFullscreen.onclick = fullscreenBtn.onclick;
-
+  
       downloadBtn.onclick = () => {
         const link = document.createElement("a");
         link.href = mainImage.src;
@@ -675,11 +673,11 @@
         link.click();
         document.body.removeChild(link);
       };
-
+  
       // Copy URL button
       copyUrlBtn.onclick = copyImageUrl;
       copyUrlBtnRand.onclick = copyImageUrlRand;
-
+  
       document.addEventListener("keydown", (e) => {
         if (e.key === "ArrowLeft") prevBtn.click();
         if (e.key === "ArrowRight") nextBtn.click();
@@ -693,7 +691,7 @@
           if (isZoomed) zoomBtn.click();
         }
       });
-
+  
       // Initialize gallery
       (async () => {
         await fetchTotalImages();
@@ -701,5 +699,6 @@
         await loadThumbnails();
       })();
     </script>
+  
   </body>
 </html>
