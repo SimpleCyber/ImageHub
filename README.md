@@ -2,6 +2,16 @@
 
 **ImageHub** is an easy-to-use image gallery that allows you to display and explore images dynamically. The project provides a backend API to serve images, a random image feature, and an intuitive frontend interface for browsing, zooming, and fullscreen views.
 
+### Project Integration
+1. Get Random images for your project JSON Format : 
+   ```bash
+   https://imageshub.onrender.com/api/random-image
+   ```
+2. Download the images :
+   ```bash
+   https://imageshub.onrender.com
+   ```
+
 ### Features:
 - **Image Gallery**: Browse through an interactive image gallery with thumbnail previews.
 - **Random Image**: View random images by clicking the "Random Image" button.
@@ -17,7 +27,7 @@
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/ImageHub.git
+   git clone https://github.com/SimpleCyber/ImageHub.git
    ```
 2. Install dependencies:
    ```bash
