@@ -224,6 +224,8 @@
       position: relative;
     }
 
+ 
+
     /* Main Image Section */
     .main-content {
       order: 1;
@@ -354,6 +356,26 @@
     .loading-spinner {
       z-index: 20;
     }
+
+    #copyUrlBtnRand{
+      height: 2rem;
+      width: 7rem;
+      margin-top:68vh;
+      margin-right: 13rem;
+      gap: 0.5rem;
+    }
+
+    #copyUrlBtn {
+      height: 2rem;
+      width: 6rem;
+      margin-top:68vh;
+      margin-right: 6rem;
+      gap: 0.5rem;
+    }
+    #sideShow{
+      display: flex;
+      gap: 1rem;
+    }
   }
 
   /* Portrait specific adjustments */
@@ -365,6 +387,7 @@
     .sidebar {
       bottom: 70px;
     }
+    
   }
 
   /* Landscape specific adjustments */
@@ -408,6 +431,26 @@
 
     .sidebar {
       height: 90px;
+    }
+
+   #copyUrlBtnRand{
+      height: 2rem;
+      width: 7rem;
+      margin-top:68vh;
+      margin-right: 13rem;
+      gap: 0.5rem;
+    }
+
+    #copyUrlBtn {
+      height: 2rem;
+      width: 6rem;
+      margin-top:68vh;
+      margin-right: 6rem;
+      gap: 0.5rem;
+    }
+    #sideShow{
+      display: flex;
+      gap: 1rem;
     }
   }
 
